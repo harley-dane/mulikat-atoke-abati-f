@@ -90,10 +90,16 @@ const Footer: React.FC = () => {
                 Twitter
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/muli.katatokefoundation/"
                 className="text-blue-400 hover:text-blue-600"
               >
                 Instagram
+              </a>
+              <a
+                href="https://www.tiktok.com/@user49500879921058"
+                className="text-blue-400 hover:text-blue-600"
+              >
+                Tiktok
               </a>
             </div>
           </div>
