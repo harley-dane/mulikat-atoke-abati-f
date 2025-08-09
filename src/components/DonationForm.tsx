@@ -22,7 +22,7 @@ const DonationForm: React.FC = () => {
       script.onload = () => {
         (window as any).paypal
           .Buttons({
-            createOrder: (data: any, actions: any) => {
+            createOrder: (_data: any, actions: any) => {
               return actions.order.create({
                 purchase_units: [
                   {
@@ -34,7 +34,7 @@ const DonationForm: React.FC = () => {
                 ],
               });
             },
-            onApprove: async (data: any, actions: any) => {
+            onApprove: async (_data: any, actions: any) => {
               await actions.order.capture();
               alert("PayPal payment completed!");
             },
@@ -59,7 +59,7 @@ const DonationForm: React.FC = () => {
     }
     try {
       const response = await fetch(
-        "http://localhost:5000/api/donations/create-checkout-session",
+        `${import.meta.env.VITE_API_URL}/api/donations/create-checkout-session`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
