@@ -14,7 +14,7 @@ const Hero: React.FC = () => {
         </h1>
         <p className="text-lg mb-6">
           Connect your values with vetted nonprofit solutions to empower
-          communities.[](https://www.naija.org/about-us)
+          communities.[](https://mulikat-atoke-abati-f.onrender.com/about-us)
         </p>
         <Link
           to="/donate"

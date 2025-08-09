@@ -34,7 +34,7 @@ const Home: React.FC = () => {
           <p className="text-lg italic max-w-3xl mx-auto">
             “Naija friend Near Foundation gives joy to everyone, not only the
             children in need but their families, volunteers, and donors.” –
-            Lukman O., Donor[](https://amigosnear.org/)
+            Lukman O., Donor[](https://mulikat-atoke-abati-f.onrender.com)
           </p>
         </div>
       </section>
