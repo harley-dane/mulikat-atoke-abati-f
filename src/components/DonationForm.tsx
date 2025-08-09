@@ -8,8 +8,16 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const DonationForm: React.FC = () => {
   const [amount, setAmount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
   const location = useLocation();
   const projectId = new URLSearchParams(location.search).get("project");
+  const isSuccess = new URLSearchParams(location.search).get("success");
+  const isCanceled = new URLSearchParams(location.search).get("canceled");
+
+  useEffect(() => {
+    if (isSuccess) setSuccess(true);
+    if (isCanceled) setError("Donation was canceled");
+  }, [isSuccess, isCanceled]);
 
   useEffect(() => {
     if (import.meta.env.VITE_PAYPAL_CLIENT_ID) {
@@ -36,7 +44,7 @@ const DonationForm: React.FC = () => {
             },
             onApprove: async (_data: any, actions: any) => {
               await actions.order.capture();
-              alert("PayPal payment completed!");
+              setSuccess(true);
             },
             onError: (err: any) => {
               setError("PayPal payment failed: " + err.message);
@@ -53,6 +61,7 @@ const DonationForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccess(false);
     if (amount <= 0) {
       setError("Please enter an amount greater than 0");
       return;
@@ -93,6 +102,11 @@ const DonationForm: React.FC = () => {
         Make a Donation
       </h2>
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      {success && (
+        <p className="text-green-600 text-center mb-4">
+          Donation completed successfully!
+        </p>
+      )}
       <form
         onSubmit={handleSubmit}
         className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg"
