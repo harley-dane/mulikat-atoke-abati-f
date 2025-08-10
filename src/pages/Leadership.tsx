@@ -1,53 +1,60 @@
 // client/src/pages/Leadership.tsx
 import { useState, useEffect } from "react";
-import ScrollArrows from "../components/ScrollArrows";
-
-interface Leader {
-  id: string;
-  name: string;
-  title: string;
-  bio: string;
-  image: string;
-}
+import LeaderCard from "../components/LeaderCard";
+import type { Leader } from "../types";
 
 const Leadership: React.FC = () => {
   const [leaders, setLeaders] = useState<Leader[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/leadership")
-      .then((res) => res.json())
-      .then((data) => setLeaders(data))
-      .catch((err) => console.error("Error fetching leadership:", err));
+    const fetchLeaders = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (!apiUrl) {
+          throw new Error(
+            "VITE_API_URL is not defined in environment variables"
+          );
+        }
+        const url = `${apiUrl}/api/leadership`;
+        console.log("Fetching from:", url);
+        const response = await fetch(url);
+        console.log("Response status:", response.status, response.statusText);
+
+        if (!response.ok) {
+          const text = await response.text();
+          console.log("Response body:", text.slice(0, 200)); // Log first 200 chars
+          throw new Error(
+            `HTTP error! Status: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        console.log("Fetched leaders:", data);
+        setLeaders(data);
+      } catch (err: any) {
+        console.error("Fetch error:", err);
+        setError(err.message);
+      }
+    };
+    fetchLeaders();
   }, []);
 
   return (
-    <section className="container mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
+    <div className="container mx-auto py-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
         Our Leadership
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      </h2>
+      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      {leaders.length === 0 && !error && (
+        <p className="text-center">No leaders found.</p>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {leaders.map((leader) => (
-          <div
-            key={leader.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden"
-          >
-            <img
-              src={leader.image}
-              alt={leader.name}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-green-700">
-                {leader.name}
-              </h3>
-              <p className="text-gray-600 font-medium">{leader.title}</p>
-              <p className="text-gray-600 mt-2">{leader.bio}</p>
-            </div>
-          </div>
+          <LeaderCard key={leader._id} leader={leader} />
         ))}
       </div>
-      <ScrollArrows />
-    </section>
+    </div>
   );
 };
 

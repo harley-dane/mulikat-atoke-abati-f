@@ -1,12 +1,7 @@
 // client/src/pages/Projects.tsx
 import { useState, useEffect } from "react";
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  image: string;
-}
+import ProjectCard from "../components/ProjectCard";
+import type { Project } from "../types";
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -15,10 +10,18 @@ const Projects: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        console.log(
+          "Fetching from:",
+          `${import.meta.env.VITE_API_URL}/api/projects`
+        );
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/projects`
         );
-        if (!response.ok) throw new Error("Failed to fetch projects");
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! Status: ${response.status} ${response.statusText}`
+          );
+        }
         const data = await response.json();
         setProjects(data);
       } catch (err: any) {
@@ -30,25 +33,20 @@ const Projects: React.FC = () => {
   }, []);
 
   return (
-    <section className="container mx-auto py-10">
-      <h2 className="text-2xl font-bold mb-4 text-center text-green-700">
+    <div className="container mx-auto py-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
         Our Projects
       </h2>
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {projects.length === 0 && !error && (
+        <p className="text-center">No projects found.</p>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {projects.map((project) => (
-          <div key={project._id} className="bg-white p-4 shadow-md rounded-lg">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-48 object-cover rounded"
-            />
-            <h3 className="text-xl font-semibold mt-2">{project.title}</h3>
-            <p>{project.description}</p>
-          </div>
+          <ProjectCard key={project._id} project={project} />
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 

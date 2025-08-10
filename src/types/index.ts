@@ -1,16 +1,24 @@
-// src/types/index.ts
+// client/src/types.ts
 export interface Project {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   image: string;
   link: string;
 }
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  date: string;
+export interface Leader {
+  _id: string;
+  name: string;
+  position: string;
+  bio: string;
+  image: string;
+}
+
+export interface Staff {
+  _id: string;
+  name: string;
+  role: string;
+  bio: string;
   image: string;
 }

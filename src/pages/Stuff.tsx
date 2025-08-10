@@ -1,53 +1,52 @@
 // client/src/pages/Staff.tsx
 import { useState, useEffect } from "react";
-import ScrollArrows from "../components/ScrollArrows";
-
-interface StaffMember {
-  id: string;
-  name: string;
-  role: string;
-  bio: string;
-  image: string;
-}
+import StaffCard from "../components/StaffCard";
+import type { Staff } from "../types";
 
 const Staff: React.FC = () => {
-  const [staff, setStaff] = useState<StaffMember[]>([]);
+  const [staff, setStaff] = useState<Staff[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/staff")
-      .then((res) => res.json())
-      .then((data) => setStaff(data))
-      .catch((err) => console.error("Error fetching staff:", err));
+    const fetchStaff = async () => {
+      try {
+        console.log(
+          "Fetching from:",
+          `${import.meta.env.VITE_API_URL}/api/staff`
+        );
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/staff`
+        );
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! Status: ${response.status} ${response.statusText}`
+          );
+        }
+        const data = await response.json();
+        setStaff(data);
+      } catch (err: any) {
+        setError(err.message);
+        console.error("Fetch error:", err);
+      }
+    };
+    fetchStaff();
   }, []);
 
   return (
-    <section className="container mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
+    <div className="container mx-auto py-10">
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
         Our Staff
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      </h2>
+      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      {staff.length === 0 && !error && (
+        <p className="text-center">No staff found.</p>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {staff.map((member) => (
-          <div
-            key={member.id}
-            className="bg-white shadow-md rounded-lg overflow-hidden"
-          >
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-xl font-semibold text-green-700">
-                {member.name}
-              </h3>
-              <p className="text-gray-600 font-medium">{member.role}</p>
-              <p className="text-gray-600 mt-2">{member.bio}</p>
-            </div>
-          </div>
+          <StaffCard key={member._id} staff={member} />
         ))}
       </div>
-      <ScrollArrows />
-    </section>
+    </div>
   );
 };
 
