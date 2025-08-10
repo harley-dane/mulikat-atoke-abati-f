@@ -1,7 +1,7 @@
-// client/src/pages/Leadership.tsx
+// src/pages/Leadership.tsx
 import { useState, useEffect } from "react";
 import LeaderCard from "../components/LeaderCard";
-import type { Leader } from "../types";
+import type { Leader } from "../types/index";
 
 const Leadership: React.FC = () => {
   const [leaders, setLeaders] = useState<Leader[]>([]);
@@ -23,7 +23,7 @@ const Leadership: React.FC = () => {
 
         if (!response.ok) {
           const text = await response.text();
-          console.log("Response body:", text.slice(0, 200)); // Log first 200 chars
+          console.log("Response body:", text.slice(0, 200));
           throw new Error(
             `HTTP error! Status: ${response.status} ${response.statusText}`
           );
@@ -32,9 +32,15 @@ const Leadership: React.FC = () => {
         const data = await response.json();
         console.log("Fetched leaders:", data);
         setLeaders(data);
-      } catch (err: any) {
-        console.error("Fetch error:", err);
-        setError(err.message);
+      } catch (err: unknown) {
+        // Changed from any to unknown
+        if (err instanceof Error) {
+          console.error("Fetch error:", err);
+          setError(err.message);
+        } else {
+          console.error("Fetch error:", err);
+          setError("An unknown error occurred");
+        }
       }
     };
     fetchLeaders();

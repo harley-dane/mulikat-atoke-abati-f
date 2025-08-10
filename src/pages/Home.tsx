@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import ProjectCard from "../components/ProjectCard";
-import type { Project } from "../types";
+import type { Project } from "../types/index";
 
 const Home: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -25,9 +25,15 @@ const Home: React.FC = () => {
         }
         const data = await response.json();
         setProjects(data.slice(0, 3));
-      } catch (err: any) {
-        setError(err.message);
-        console.error("Fetch error:", err);
+      } catch (err: unknown) {
+        // Changed from any to unknown
+        if (err instanceof Error) {
+          setError(err.message);
+          console.error("Fetch error:", err);
+        } else {
+          setError("An unknown error occurred");
+          console.error("Fetch error:", err);
+        }
       }
     };
     fetchProjects();

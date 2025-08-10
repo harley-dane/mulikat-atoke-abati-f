@@ -1,9 +1,10 @@
+// src/pages/Staff.tsx
 import { useState, useEffect } from "react";
 import StaffCard from "../components/StaffCard";
-import { type StaffMember } from "../types"; // Updated to  Staffm
+import type { StaffMember } from "../types/index";
 
 const Staff: React.FC = () => {
-  const [staff, setStaff] = useState<StaffMember[]>([]); // Updated to StaffMember
+  const [staff, setStaff] = useState<StaffMember[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,10 +24,15 @@ const Staff: React.FC = () => {
         }
         const data = await response.json();
         setStaff(data);
-      } catch (err: Error) {
-        // Changed from any to Error
-        setError(err.message);
-        console.error("Fetch error:", err);
+      } catch (err: unknown) {
+        // Changed to unknown
+        if (err instanceof Error) {
+          setError(err.message);
+          console.error("Fetch error:", err);
+        } else {
+          setError("An unknown error occurred");
+          console.error("Fetch error:", err);
+        }
       }
     };
     fetchStaff();

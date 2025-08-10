@@ -1,9 +1,9 @@
-// client/src/components/StaffCard.tsx
+// src/components/StaffCard.tsx
 import React from "react";
-import type { Staff } from "../types";
+import type { StaffMember } from "../types"; // Changed from Staff to StaffMember
 
 interface StaffCardProps {
-  staff: Staff;
+  staff: StaffMember; // Changed from Staff to StaffMember
 }
 
 const StaffCard: React.FC<StaffCardProps> = ({ staff }) => {
