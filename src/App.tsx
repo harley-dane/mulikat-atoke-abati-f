@@ -8,7 +8,7 @@ import Contact from "./pages/Contact";
 import Donate from "./pages/Donate";
 import AboutUs from "./pages/AboutUs";
 import Leadership from "./pages/Leadership";
-import Staff from "./pages/Stuff";
+import Stuff from "./pages/Stuff";
 import Reports from "./pages/Reports";
 import Employment from "./pages/Employment";
 import FAQs from "./pages/FAQs";
@@ -26,7 +26,7 @@ const App: React.FC = () => {
         <Route path="/donate" element={<Donate />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/leadership" element={<Leadership />} />
-        <Route path="/staff" element={<Staff />} />
+        <Route path="/staff" element={<Stuff />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="/employment" element={<Employment />} />
         <Route path="/faqs" element={<FAQs />} />
