@@ -15,10 +15,37 @@ const Blog: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/posts")
-      .then((res) => res.json())
-      .then((data) => setPosts(data))
-      .catch(() => setError("Failed to fetch posts"));
+    const fetchPosts = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (!apiUrl) {
+          throw new Error(
+            "VITE_API_URL is not defined in environment variables"
+          );
+        }
+        const response = await fetch(`${apiUrl}/api/posts`);
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! Status: ${response.status} ${response.statusText}`
+          );
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error("Fetch error:", err);
+          setError(
+            err.message.includes("Failed to fetch")
+              ? "Unable to connect to the server. Please check if the backend is running."
+              : err.message
+          );
+        } else {
+          console.error("Fetch error:", err);
+          setError("An unknown error occurred");
+        }
+      }
+    };
+    fetchPosts();
   }, []);
 
   return (
@@ -37,6 +64,10 @@ const Blog: React.FC = () => {
               src={post.image}
               alt={post.title}
               className="w-full md:w-1/3 h-48 object-cover rounded"
+              onError={(e) => {
+                console.error(`Failed to load image: ${post.image}`);
+                e.currentTarget.src = "/placeholder.jpg";
+              }}
             />
             <div className="md:ml-6 mt-4 md:mt-0">
               <h3 className="text-xl font-semibold text-green-700">
