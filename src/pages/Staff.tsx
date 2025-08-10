@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import StaffCard from "../components/StaffCard";
-import { type StaffMember } from "../types"; // Updated to StaffMember
+import { type StaffMember } from "../types"; // Updated to  Staffm
 
 const Staff: React.FC = () => {
   const [staff, setStaff] = useState<StaffMember[]>([]); // Updated to StaffMember
