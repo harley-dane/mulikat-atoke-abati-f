@@ -62,9 +62,9 @@ const Home: React.FC = () => {
             What People Say
           </h2>
           <p className="text-lg italic max-w-3xl mx-auto">
-            “Naija friend Near Foundation gives joy to everyone, not only the
-            children in need but their families, volunteers, and donors.” –
-            Lukman O., Donor
+            “Mulikat Atoke Abati Foundation Near Foundation gives joy to
+            everyone, not only the children in need but their families,
+            volunteers, and donors.” – Lukman O., Donor
           </p>
         </div>
       </section>

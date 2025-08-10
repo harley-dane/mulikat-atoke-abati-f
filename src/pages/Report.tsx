@@ -9,8 +9,8 @@ const Reports: React.FC = () => {
       </h1>
       <div className="prose max-w-3xl mx-auto">
         <p>
-          Our annual reports highlight the impact of your donations on Costa
-          Rican communities. Download our reports below.
+          Our annual reports highlight the impact of your donations on Nigerian
+          communities. Download our reports below.
         </p>
         <ul className="list-disc pl-6">
           <li>
@@ -18,7 +18,7 @@ const Reports: React.FC = () => {
               href="/assets/reports/2023-annual-report.pdf"
               className="text-blue-600 hover:underline"
             >
-              2023 Annual Report
+              2024 Annual Report
             </a>
           </li>
           <li>
@@ -26,7 +26,7 @@ const Reports: React.FC = () => {
               href="/assets/reports/2022-annual-report.pdf"
               className="text-blue-600 hover:underline"
             >
-              2022 Annual Report
+              2023 Annual Report
             </a>
           </li>
         </ul>
