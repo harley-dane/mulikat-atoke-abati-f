@@ -8,7 +8,7 @@ import Contact from "./pages/Contact";
 import Donate from "./pages/Donate";
 import AboutUs from "./pages/AboutUs";
 import Leadership from "./pages/Leadership";
-import Staff from "./pages/Worker";
+import Staff from "./pages/staff";
 import Reports from "./pages/Reports";
 import Employment from "./pages/Employment";
 import FAQs from "./pages/FAQs";

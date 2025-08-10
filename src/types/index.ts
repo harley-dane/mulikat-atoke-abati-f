@@ -15,7 +15,7 @@ export interface Leader {
   image: string;
 }
 
-export interface Staff {
+export interface StaffMember { // Renamed from Staff to StaffMember
   _id: string;
   name: string;
   role: string;
