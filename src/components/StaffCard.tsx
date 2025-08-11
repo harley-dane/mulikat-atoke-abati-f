@@ -1,9 +1,8 @@
-// src/components/StaffCard.tsx
 import React from "react";
-import type { StaffMember } from "../types"; // Changed from Staff to StaffMember
+import type { StaffMember } from "../types";
 
 interface StaffCardProps {
-  staff: StaffMember; // Changed from Staff to StaffMember
+  staff: StaffMember;
 }
 
 const StaffCard: React.FC<StaffCardProps> = ({ staff }) => {
@@ -15,7 +14,7 @@ const StaffCard: React.FC<StaffCardProps> = ({ staff }) => {
         className="w-full h-48 object-cover"
         onError={(e) => {
           console.error(`Failed to load image: ${staff.image}`);
-          e.currentTarget.src = "/placeholder.jpg"; // Fallback image
+          e.currentTarget.src = "https://via.placeholder.com/150";
         }}
       />
       <div className="p-6">

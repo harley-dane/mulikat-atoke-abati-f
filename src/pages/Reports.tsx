@@ -1,4 +1,3 @@
-// client/src/pages/Reports.tsx
 import ScrollArrows from "../components/ScrollArrows";
 
 const reports = [
@@ -7,14 +6,14 @@ const reports = [
     title: "2024 Annual Report",
     description:
       "A comprehensive overview of our projects, impact, and financials for 2024.",
-    link: "/reports/2024-annual-report.pdf",
+    link: "https://mulikat-atoke-abati-b.onrender.com/reports/2024-annual-report.pdf",
   },
   {
     id: 2,
     title: "2023 Financial Summary",
     description:
       "Detailed financial breakdown of donations and expenditures for 2023.",
-    link: "/reports/2023-financial-summary.pdf",
+    link: "https://mulikat-atoke-abati-b.onrender.com/reports/2023-financial-summary.pdf",
   },
 ];
 

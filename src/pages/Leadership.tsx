@@ -1,4 +1,3 @@
-// src/pages/Leadership.tsx
 import { useState, useEffect } from "react";
 import LeaderCard from "../components/LeaderCard";
 import type { Leader } from "../types/index";
@@ -6,9 +5,11 @@ import type { Leader } from "../types/index";
 const Leadership: React.FC = () => {
   const [leaders, setLeaders] = useState<Leader[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeaders = async () => {
+      setIsLoading(true);
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
         if (!apiUrl) {
@@ -33,7 +34,6 @@ const Leadership: React.FC = () => {
         console.log("Fetched leaders:", data);
         setLeaders(data);
       } catch (err: unknown) {
-        // Changed from any to unknown
         if (err instanceof Error) {
           console.error("Fetch error:", err);
           setError(err.message);
@@ -41,6 +41,8 @@ const Leadership: React.FC = () => {
           console.error("Fetch error:", err);
           setError("An unknown error occurred");
         }
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchLeaders();
@@ -51,8 +53,9 @@ const Leadership: React.FC = () => {
       <h2 className="text-3xl font-bold mb-6 text-center text-green-700">
         Our Leadership
       </h2>
+      {isLoading && <p className="text-center text-gray-600">Loading...</p>}
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
-      {leaders.length === 0 && !error && (
+      {!isLoading && leaders.length === 0 && !error && (
         <p className="text-center">No leaders found.</p>
       )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

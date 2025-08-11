@@ -1,4 +1,3 @@
-// client/src/pages/Blog.tsx
 import { useState, useEffect } from "react";
 import ScrollArrows from "../components/ScrollArrows";
 
@@ -13,9 +12,11 @@ interface Post {
 const Blog: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsLoading(true);
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
         if (!apiUrl) {
@@ -43,6 +44,8 @@ const Blog: React.FC = () => {
           console.error("Fetch error:", err);
           setError("An unknown error occurred");
         }
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchPosts();
@@ -53,7 +56,11 @@ const Blog: React.FC = () => {
       <h1 className="text-4xl font-bold text-green-700 mb-6 text-center">
         Blog
       </h1>
+      {isLoading && <p className="text-center text-gray-600">Loading...</p>}
       {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      {!isLoading && posts.length === 0 && !error && (
+        <p className="text-center">No posts found.</p>
+      )}
       <div className="space-y-6">
         {posts.map((post) => (
           <div
@@ -66,7 +73,7 @@ const Blog: React.FC = () => {
               className="w-full md:w-1/3 h-48 object-cover rounded"
               onError={(e) => {
                 console.error(`Failed to load image: ${post.image}`);
-                e.currentTarget.src = "/placeholder.jpg";
+                e.currentTarget.src = "https://via.placeholder.com/150";
               }}
             />
             <div className="md:ml-6 mt-4 md:mt-0">

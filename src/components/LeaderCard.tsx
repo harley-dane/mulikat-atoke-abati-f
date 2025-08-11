@@ -1,4 +1,3 @@
-// client/src/components/LeaderCard.tsx
 import React from "react";
 import type { Leader } from "../types";
 
@@ -15,7 +14,7 @@ const LeaderCard: React.FC<LeaderCardProps> = ({ leader }) => {
         className="w-full h-48 object-cover"
         onError={(e) => {
           console.error(`Failed to load image: ${leader.image}`);
-          e.currentTarget.src = "/placeholder.jpg"; // Fallback image
+          e.currentTarget.src = "https://via.placeholder.com/150";
         }}
       />
       <div className="p-6">
